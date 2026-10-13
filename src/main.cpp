@@ -31,7 +31,7 @@ int main()
             }
         }
     }
-    double x = 2.0;
+    double x = 0.0;
     symbol_table.add_variable("x", x);
     expression.register_symbol_table(symbol_table);
     parser.compile(equation, expression);
