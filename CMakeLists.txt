@@ -17,3 +17,7 @@ set_target_properties(mathMusic PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}"
 )
+
+if(MSVC)
+    target_compile_options(mathMusic PRIVATE /bigobj)
+endif()
