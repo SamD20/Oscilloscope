@@ -32,6 +32,8 @@ QLineSeries* getPoints(double &x, string equation, symbol_table<double> &symbol_
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+
     symbol_table<double> symbol_table;
     expression<double> expression;
     parser<double> parser;
@@ -63,11 +65,26 @@ int main(int argc, char *argv[])
 
     QLineSeries* series = getPoints(x, equation, symbol_table, expression, parser, -10, 10);
 
-    QApplication app(argc, argv);
-    QWidget window;
-    window.setWindowTitle("Oscilloscope");
-    window.resize(400, 300);
-    window.show();
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+
+    // Create axes
+    QValueAxis *axisX = new QValueAxis();
+    axisX->setRange(-10, 10);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setRange(-10, 10);
+
+    chart->addAxis(axisX, Qt::AlignBottom);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+
+    QChartView chartView(chart);
+    chartView.setRenderHint(QPainter::Antialiasing);
+    chartView.resize(800, 600);
+    chartView.show();
 
     return app.exec();
 }
